@@ -46,7 +46,7 @@
         type="text"
         v-model="tempSkill"
         @keyup.space="addskill"
-        placeholder="اكتب مهارة..."
+        placeholder="Add skill :)"
       />
       <button type="button" @click="addskillBtn">
         <i class="fa-solid fa-plus"></i>
