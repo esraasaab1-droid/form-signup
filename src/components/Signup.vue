@@ -1,11 +1,9 @@
-
-  <template>
-    <link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-/>
+<template>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  />
   <form @submit.prevent="handleSUbmit">
-    
     <label>
       <i class="fa-solid fa-envelope"></i>
       Email:
@@ -17,7 +15,6 @@
       Password:
     </label>
     <input v-model="password" type="password" required />
-
     <div v-if="PasswrdError" class="error">
       <i class="fa-solid fa-triangle-exclamation"></i>
       {{ PasswrdError }}
@@ -44,12 +41,17 @@
       <i class="fa-solid fa-code"></i>
       Skills:
     </label>
-    <input
-      type="text"
-      v-model="tempSkill"
-      required
-      @keyup.space="addskill"
-    />
+    <div class="skill-input">
+      <input
+        type="text"
+        v-model="tempSkill"
+        @keyup.space="addskill"
+        placeholder="اكتب مهارة..."
+      />
+      <button type="button" @click="addskillBtn">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
 
     <div v-for="skill in skills" :key="skill" class="pill">
       <span @click="removeskill(skill)">
@@ -64,12 +66,10 @@
         Create an Account
       </button>
     </div>
-
   </form>
 </template>
 
 <script>
-import Signup from "./Signup.vue";
 export default {
   data() {
     return {
@@ -78,39 +78,50 @@ export default {
       role: "",
       terms: false,
       skills: [],
-      PasswrdError:''
+      tempSkill: "",
+      PasswrdError: ""
     };
   },
   methods: {
     addskill(e) {
-      if (e.key === " " && this.tempSkill) {
-        if (!this.skills.includes(this.tempSkill)) {
-          this.skills.push(this.tempSkill);
+      if (e.key === " " && this.tempSkill.trim()) {
+        if (!this.skills.includes(this.tempSkill.trim())) {
+          this.skills.push(this.tempSkill.trim());
+        }
+        this.tempSkill = "";
+      }
+    },
+    addskillBtn() {
+      if (this.tempSkill.trim()) {
+        if (!this.skills.includes(this.tempSkill.trim())) {
+          this.skills.push(this.tempSkill.trim());
         }
         this.tempSkill = "";
       }
     },
     removeskill(skill) {
-      this.skills = this.skills.filter((s) => {
-        return skill !== s;
-      });
+      this.skills = this.skills.filter((s) => skill !== s);
     },
-    handleSUbmit(){
-        this.PasswrdError=this.password.length < 8 ? 'Password must be at least 8 characters long':'';
-   
-   if(!this.PasswrdError){
-    alert('Form submitted successfully!');
-    console.log({
-      email: this.email,
-      password: this.password,
-      role: this.role,
-      terms: this.terms,
-      skills: this.skills
-    });
-   }
+    handleSUbmit() {
+      this.PasswrdError = this.password.length < 8
+        ? "Password must be at least 8 characters long"
+        : "";
+
+      if (!this.PasswrdError) {
+        alert("Form submitted successfully!");
+        console.log({
+          email: this.email,
+          password: this.password,
+          role: this.role,
+          terms: this.terms,
+          skills: this.skills
+        });
+      }
+    }
   }
-}}
+};
 </script>
+
 <style>
 form {
   max-width: 420px;
@@ -146,11 +157,22 @@ input[type="checkbox"] {
   margin: 0 10px 0 0;
   position: relative;
   top: 3px;
-  border-radius: 2px solid black;
+}
+.skill-input {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.skill-input input {
+  flex: 1;
+}
+.skill-input button {
+  margin-top: 0;
+  padding: 10px 14px;
+  border-radius: 50%;
 }
 .pill {
   display: inline-block;
-  top: 2px;
   margin: 20px 10px 0 0;
   padding: 6px 12px;
   background-color: #eee;
@@ -160,7 +182,6 @@ input[type="checkbox"] {
   font-weight: bold;
   color: #777;
   cursor: pointer;
-  width: 16px;
 }
 button {
   background-color: #0b6dff;
@@ -170,26 +191,22 @@ button {
   border-radius: 20px;
   color: white;
 }
-
 .submit {
   text-align: center;
 }
-.error{
-    color: rgb(198, 48, 48);
-    font-size: 0.8em;
-    margin-top: 10px;
-    font-weight: bold;
-   
-    font-family: Arial, Helvetica, sans-serif;
+.error {
+  color: rgb(198, 48, 48);
+  font-size: 0.8em;
+  margin-top: 10px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
 }
 i {
   margin-right: 6px;
 }
-
 button i {
   margin-right: 8px;
 }
-
 .error i {
   margin-right: 5px;
 }
