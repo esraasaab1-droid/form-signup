@@ -27,6 +27,10 @@
     <select v-model="role" required>
       <option value="developer">Web Developer</option>
       <option value="Designer">Web Designer</option>
+            <option value="Backend">Bckend</option>
+            <option value="UI&UX">UI&UX</option>
+
+
     </select>
 
     <div class="terms">
