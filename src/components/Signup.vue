@@ -92,20 +92,25 @@ export default {
   this.PasswrdError = "";
   this.skillsError = "";
 
-  // 1. Password validation
+  let hasError = false;
+
+  // password check
   if (!passwordRegex.test(this.password)) {
     this.PasswrdError =
       "Password must include uppercase, lowercase, number, and symbol";
-    return;
+    hasError = true;
   }
 
-  // 2. Skills validation
+  // skills check
   if (this.skills.length === 0) {
     this.skillsError = "Please add at least one skill";
-    return;
+    hasError = true;
   }
 
-  // 3. SUCCESS CASE فقط
+  // stop only if errors exist
+  if (hasError) return;
+
+  // success
   alert("Account created successfully!");
 
   console.log({
@@ -115,13 +120,13 @@ export default {
     skills: this.skills
   });
 
-  // 4. Reset form بعد النجاح فقط
+  // reset
   this.email = "";
   this.password = "";
   this.role = "";
   this.skills = [];
   this.tempSkill = "";
-} 
+}
   }
 };
 </script>
