@@ -2,10 +2,9 @@
   <div :class="['auth-wrapper', darkMode ? 'dark' : 'light']">
 
     <!-- Theme Icon -->
-    <div class="theme-icon" @click="darkMode = !darkMode">
-      <i :class="darkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
-    </div>
-
+    <div class="theme-icon" @click="toggleTheme">
+  <i :class="darkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
+</div>
     <form class="card" @submit.prevent="handleSUbmit">
 
       <h2>Create Account</h2>
@@ -71,7 +70,7 @@ export default {
       tempSkill: "",
       PasswrdError: "",
       skillsError: "",
-      darkMode: false
+    darkMode: false
     };
   },
 
@@ -82,7 +81,10 @@ export default {
       }
       this.tempSkill = "";
     },
-
+     toggleTheme() {
+    this.darkMode = !this.darkMode;
+  }
+,
     removeskill(skill) {
       this.skills = this.skills.filter(s => s !== skill);
     },
@@ -219,17 +221,45 @@ input, select {
 
 /* Theme icon */
 .theme-icon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  position: fixed;
+  top: 18px;
+  right: 18px;
   font-size: 20px;
   cursor: pointer;
-  padding: 8px;
+  z-index: 9999;
+
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  color: inherit;
   transition: 0.2s;
 }
 
 .theme-icon:hover {
   transform: scale(1.1);
+}
+
+/* light */
+.light {
+  background: #f4f6f8;
+  color: #111;
+}
+
+/* dark */
+.dark {
+  background: #0f172a;
+  color: #fff;
+}
+  .dark .theme-icon {
+  background: rgba(255,255,255,0.08);
+}
+
+.light .theme-icon {
+  background: rgba(0,0,0,0.05);
 }
 </style>
