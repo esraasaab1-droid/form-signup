@@ -1,215 +1,142 @@
+<template>
+  <div class="auth-wrapper">
+    <form class="card" @submit.prevent="handleSubmit">
 
-  <template>
-    <link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-/>
-  <form @submit.prevent="handleSUbmit">
-    
-    <label>
-      <i class="fa-solid fa-envelope"></i>
-      Email:
-    </label>
-    <input v-model="email" type="email" required />
+      <h2>Create Account</h2>
+      <p class="subtitle">Sign up to start using the platform</p>
 
-    <label>
-      <i class="fa-solid fa-lock"></i>
-      Password:
-    </label>
-    <input v-model="password" type="password" required />
+      <!-- Email -->
+      <div class="field">
+        <label>Email</label>
+        <input v-model="email" type="email" placeholder="you@example.com" />
+        <small v-if="errors.email">{{ errors.email }}</small>
+      </div>
 
-    <div v-if="PasswrdError" class="error">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-      {{ PasswrdError }}
-    </div>
+      <!-- Password -->
+      <div class="field">
+        <label>Password</label>
+        <input v-model="password" type="password" placeholder="••••••••" />
+        <small v-if="errors.password">{{ errors.password }}</small>
+      </div>
 
-    <label>
-      <i class="fa-solid fa-user-tie"></i>
-      Role:
-    </label>
-    <select v-model="role" required>
-      <option value="developer">Web Developer</option>
-      <option value="Designer">Web Designer</option>
-    </select>
+      <!-- Role -->
+      <div class="field">
+        <label>Role</label>
+        <select v-model="role">
+          <option disabled value="">Select role</option>
+          <option>Developer</option>
+          <option>Designer</option>
+        </select>
+      </div>
 
-    <div class="terms">
-      <input type="checkbox" v-model="terms" required />
-      <label>
-        <i class="fa-solid fa-circle-check"></i>
-        I agree to the terms and conditions
-      </label>
-    </div>
+      <!-- Submit -->
+      <button type="submit">Create Account</button>
 
-    <label>
-      <i class="fa-solid fa-code"></i>
-      Skills:
-    </label>
-    <input
-      type="text"
-      v-model="tempSkill"
-      required
-      @keyup.space="addskill"
-    />
-
-    <div v-for="skill in skills" :key="skill" class="pill">
-      <span @click="removeskill(skill)">
-        <i class="fa-solid fa-gem"></i>
-        {{ skill }}
-      </span>
-    </div>
-
-    <div class="submit">
-      <button>
-        <i class="fa-solid fa-user-plus"></i>
-        Create an Account
-      </button>
-    </div>
-
-  </form>
+    </form>
+  </div>
 </template>
 
 <script>
-import Signup from "./Signup.vue";
-const passwordRegex =
-  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])[A-Za-z\d@#$%^&+=]{8,}$/;
-
-
 export default {
   data() {
     return {
       email: "",
       password: "",
       role: "",
-      terms: false,
-      skills: [],
-      PasswrdError:''
+      errors: {}
     };
   },
+
   methods: {
-    addskill(e) {
-      if (e.key === " " && this.tempSkill) {
-        if (!this.skills.includes(this.tempSkill)) {
-          this.skills.push(this.tempSkill);
-        }
-        this.tempSkill = "";
+    handleSubmit() {
+      this.errors = {};
+
+      if (!this.email.includes("@")) {
+        this.errors.email = "Invalid email";
       }
-    },
-    removeskill(skill) {
-      this.skills = this.skills.filter((s) => {
-        return skill !== s;
-      });
-    },
-    handleSUbmit(){
-this.PasswrdError = "";
 
-if (!passwordRegex.test(this.password)) {
-  this.PasswrdError =
-    "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.";
-  return;
-}
+      if (this.password.length < 8) {
+        this.errors.password = "Minimum 8 characters required";
+      }
 
-alert("Form submitted successfully!");
-
-console.log({
-  email: this.email,
-  password: this.password,
-  role: this.role,
-  terms: this.terms,
-  skills: this.skills,
-});   
-   if(!this.PasswrdError){
-    alert('Form submitted successfully!');
-    console.log({
-      email: this.email,
-      password: this.password,
-      role: this.role,
-      terms: this.terms,
-      skills: this.skills
-    });
-   }
+      if (Object.keys(this.errors).length === 0) {
+        alert("Account created successfully!");
+      }
+    }
   }
-}}
+};
 </script>
-<style>
-form {
-  max-width: 420px;
-  margin: 30px auto;
+
+<style scoped>
+.auth-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f6f8;
+  font-family: Arial, sans-serif;
+}
+
+.card {
+  width: 380px;
   background: white;
-  text-align: left;
-  padding: 40px;
-  border-radius: 10px;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
+
+h2 {
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
 label {
-  color: #aaa;
-  display: inline-block;
-  margin: 25px 0 15px;
-  font-size: 0.6em;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: bold;
-}
-input,
-select {
-  box-sizing: border-box;
   display: block;
-  width: 100%;
-  padding: 10px 6px;
-  font-size: 1.2em;
-  border: none;
-  border-bottom: 1px solid #ddd;
+  font-size: 12px;
+  margin-bottom: 5px;
   color: #555;
 }
-input[type="checkbox"] {
-  display: inline-block;
-  width: 16px;
-  margin: 0 10px 0 0;
-  position: relative;
-  top: 3px;
-  border-radius: 2px solid black;
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s;
 }
-.pill {
-  display: inline-block;
-  top: 2px;
-  margin: 20px 10px 0 0;
-  padding: 6px 12px;
-  background-color: #eee;
-  border-radius: 20px;
+
+input:focus, select:focus {
+  border-color: #4f46e5;
+}
+
+small {
+  color: #e11d48;
   font-size: 12px;
-  letter-spacing: 1px;
-  font-weight: bold;
-  color: #777;
-  cursor: pointer;
-  width: 16px;
 }
+
 button {
-  background-color: #0b6dff;
-  border: 0;
-  padding: 10px 20px;
-  margin-top: 20px;
-  border-radius: 20px;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: #4f46e5;
   color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.submit {
-  text-align: center;
-}
-.error{
-    color: rgb(198, 48, 48);
-    font-size: 0.8em;
-    margin-top: 10px;
-    font-weight: bold;
-   
-    font-family: Arial, Helvetica, sans-serif;
-}
-i {
-  margin-right: 6px;
-}
-
-button i {
-  margin-right: 8px;
-}
-
-.error i {
-  margin-right: 5px;
+button:hover {
+  background: #4338ca;
 }
 </style>
