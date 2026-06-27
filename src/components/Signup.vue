@@ -125,46 +125,58 @@ export default {
   justify-content: center;
   align-items: center;
   transition: 0.3s;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
+  padding: 20px;
 }
 
-/* LIGHT */
+
 .light {
   background: #f4f6f8;
   color: #111;
 }
 
-/* DARK */
+.light .card {
+  background: #ffffff;
+}
+
+ 
 .dark {
   background: #0f172a;
-  color: #fff;
-}
-
-.card {
-  width: 380px;
-  padding: 25px;
-  border-radius: 14px;
-  transition: 0.3s;
-}
-
-.light .card {
-  background: white;
+  color: #f8fafc;
 }
 
 .dark .card {
   background: #1e293b;
 }
 
-/* Inputs */
-input, select {
+ 
+.card {
+  width: 380px;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+ 
+input,
+select {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
   border-radius: 8px;
   border: 1px solid #ccc;
+  outline: none;
+  transition: 0.2s;
+  font-size: 14px;
 }
 
-/* Dark inputs */
+input:focus,
+select:focus {
+  border-color: #4f46e5;
+}
+
+/* dark inputs */
 .dark input,
 .dark select {
   background: #0f172a;
@@ -172,23 +184,49 @@ input, select {
   border: 1px solid #334155;
 }
 
-/* Skill input */
+ 
+label {
+  display: block;
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+ 
+.error {
+  color: #f87171;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+ 
 .skill-input {
   display: flex;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
 }
 
 .skill-input button {
   background: #4f46e5;
   color: white;
   border: none;
-  padding: 10px;
+  padding: 10px 14px;
   border-radius: 8px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-/* Skills */
+.skill-input button:hover {
+  background: #4338ca;
+  transform: translateY(-1px);
+}
+
+ 
+.skills {
+  margin-top: 10px;
+}
+
 .skills span {
   display: inline-block;
   background: #4f46e5;
@@ -196,11 +234,17 @@ input, select {
   padding: 5px 10px;
   margin: 4px;
   border-radius: 20px;
-  cursor: pointer;
   font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-/* Submit */
+.skills span:hover {
+  background: #4338ca;
+  transform: scale(1.05);
+}
+
+ 
 .submit-btn {
   width: 100%;
   margin-top: 15px;
@@ -210,56 +254,40 @@ input, select {
   background: #22c55e;
   color: white;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-/* Error */
-.error {
-  color: #f87171;
-  font-size: 12px;
-  margin-top: 5px;
+.submit-btn:hover {
+  background: #16a34a;
+  transform: translateY(-1px);
 }
 
-/* Theme icon */
+ 
 .theme-icon {
   position: fixed;
   top: 18px;
   right: 18px;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
   z-index: 9999;
 
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: none;
+  width: auto;
+  height: auto;
+  padding: 0;
 
-  border-radius: 50%;
-  background: rgba(255,255,255,0.1);
-  color: inherit;
   transition: 0.2s;
 }
 
 .theme-icon:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
-/* light */
-.light {
-  background: #f4f6f8;
-  color: dark;
+ .light .theme-icon {
+  color: #111;
 }
 
-/* dark */
-.dark {
-  background: #0f172a;;
-  color: white;
-}
-  .dark .theme-icon {
-  background: rgba(255,255,255,0.08);
-}
-
-.light .theme-icon {
-  background: rgba(0,0,0,0.05);
+.dark .theme-icon {
+  color: #facc15;
 }
 </style>
