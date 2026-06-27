@@ -246,13 +246,13 @@ input, select {
 
 /* light */
 .light {
-  background: #f4f6f8;
+  background: black;
   color: #111;
 }
 
 /* dark */
 .dark {
-  background: #0f172a;
+  background: white;
   color: #fff;
 }
   .dark .theme-icon {
