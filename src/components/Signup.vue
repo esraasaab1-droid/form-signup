@@ -15,8 +15,7 @@
 
       <!-- Password -->
       <label>Password</label>
-      <input v-model="password" type="password" required />
-
+<input v-model="password" type="password" @input="PasswrdError = ''" />
       <div v-if="PasswrdError" class="error">
         {{ PasswrdError }}
       </div>
@@ -32,7 +31,7 @@
       <label>Skills</label>
 
       <div class="skill-input">
-        <input v-model="tempSkill" placeholder="Add skill" />
+<input v-model="tempSkill" @input="skillsError = ''" placeholder="Add skill" />
         <button type="button" @click="addskill">
           Add
         </button>
