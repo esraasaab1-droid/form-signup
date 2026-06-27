@@ -1,72 +1,135 @@
-<template>
-  <div class="auth-wrapper">
-    <form class="card" @submit.prevent="handleSubmit">
 
-      <h2>Create Account</h2>
-      <p class="subtitle">Sign up to start using the platform</p>
+  <template>
+    <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+/>
+  <form @submit.prevent="handleSUbmit">
+    
+    <label>
+      <i class="fa-solid fa-envelope"></i>
+      Email:
+    </label>
+    <input v-model="email" type="email" required />
 
-      <!-- Email -->
-      <div class="field">
-        <label>Email</label>
-        <input v-model="email" type="email" placeholder="you@example.com" />
-        <small v-if="errors.email">{{ errors.email }}</small>
-      </div>
+    <label>
+      <i class="fa-solid fa-lock"></i>
+      Password:
+    </label>
+    <input v-model="password" type="password" required />
 
-      <!-- Password -->
-      <div class="field">
-        <label>Password</label>
-        <input v-model="password" type="password" placeholder="••••••••" />
-        <small v-if="errors.password">{{ errors.password }}</small>
-      </div>
+    <div v-if="PasswrdError" class="error">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      {{ PasswrdError }}
+    </div>
 
-      <!-- Role -->
-      <div class="field">
-        <label>Role</label>
-        <select v-model="role">
-          <option disabled value="">Select role</option>
-          <option>Developer</option>
-          <option>Designer</option>
-        </select>
-      </div>
+    <label>
+      <i class="fa-solid fa-user-tie"></i>
+      Role:
+    </label>
+    <select v-model="role" required>
+      <option value="developer">Web Developer</option>
+      <option value="Designer">Web Designer</option>
+    </select>
 
-      <!-- Submit -->
-      <button type="submit">Create Account</button>
+    <div class="terms">
+      <input type="checkbox" v-model="terms" required />
+      <label>
+        <i class="fa-solid fa-circle-check"></i>
+        I agree to the terms and conditions
+      </label>
+    </div>
 
-    </form>
-  </div>
+    <label>
+      <i class="fa-solid fa-code"></i>
+      Skills:
+    </label>
+    <input
+      type="text"
+      v-model="tempSkill"
+      required
+      @keyup.space="addskill"
+    />
+
+    <div v-for="skill in skills" :key="skill" class="pill">
+      <span @click="removeskill(skill)">
+        <i class="fa-solid fa-gem"></i>
+        {{ skill }}
+      </span>
+    </div>
+
+    <div class="submit">
+      <button>
+        <i class="fa-solid fa-user-plus"></i>
+        Create an Account
+      </button>
+    </div>
+
+  </form>
 </template>
 
 <script>
+import Signup from "./Signup.vue";
+const passwordRegex =
+  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])[A-Za-z\d@#$%^&+=]{8,}$/;
+
+
 export default {
   data() {
     return {
       email: "",
       password: "",
       role: "",
-      errors: {}
+      terms: false,
+      skills: [],
+      PasswrdError:''
     };
   },
-
   methods: {
-    handleSubmit() {
-      this.errors = {};
-
-      if (!this.email.includes("@")) {
-        this.errors.email = "Invalid email";
+    addskill(e) {
+      if (e.key === " " && this.tempSkill) {
+        if (!this.skills.includes(this.tempSkill)) {
+          this.skills.push(this.tempSkill);
+        }
+        this.tempSkill = "";
       }
+    },
+    removeskill(skill) {
+      this.skills = this.skills.filter((s) => {
+        return skill !== s;
+      });
+    },
+    handleSUbmit(){
+this.PasswrdError = "";
 
-      if (this.password.length < 8) {
-        this.errors.password = "Minimum 8 characters required";
-      }
+if (!passwordRegex.test(this.password)) {
+  this.PasswrdError =
+    "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.";
+  return;
+}
 
-      if (Object.keys(this.errors).length === 0) {
-        alert("Account created successfully!");
-      }
-    }
+alert("Form submitted successfully!");
+
+console.log({
+  email: this.email,
+  password: this.password,
+  role: this.role,
+  terms: this.terms,
+  skills: this.skills,
+});   
+   if(!this.PasswrdError){
+    alert('Form submitted successfully!');
+    console.log({
+      email: this.email,
+      password: this.password,
+      role: this.role,
+      terms: this.terms,
+      skills: this.skills
+    });
+   }
   }
-};
+}}
 </script>
-
 <style scoped>
 .auth-wrapper {
   height: 100vh;
