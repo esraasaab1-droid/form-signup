@@ -1,82 +1,55 @@
 <template>
-  <form @submit.prevent="handleSUbmit">
+  <div :class="['auth-wrapper', darkMode ? 'dark' : 'light']">
 
-    <!-- Email -->
-    <label>
-      <i class="fa-solid fa-envelope"></i>
-      Email:
-    </label>
-    <input v-model="email" type="email" required />
+    <button class="toggle" @click="darkMode = !darkMode">
+      {{ darkMode ? '☀ Light Mode' : '🌙 Dark Mode' }}
+    </button>
 
-    <!-- Password -->
-    <label>
-      <i class="fa-solid fa-lock"></i>
-      Password:
-    </label>
-    <input v-model="password" type="password" required />
+    <form class="card" @submit.prevent="handleSUbmit">
 
-    <div v-if="PasswrdError" class="error">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-      {{ PasswrdError }}
-    </div>
+      <h2>Create Account</h2>
 
-    <!-- Role -->
-    <label>
-      <i class="fa-solid fa-user-tie"></i>
-      Role:
-    </label>
-    <select v-model="role" required>
-      <option disabled value="">Select role</option>
-      <option>Web Developer</option>
-      <option>Web Designer</option>
-    </select>
+      <!-- Email -->
+      <label>Email</label>
+      <input v-model="email" type="email" />
 
-    <!-- Terms -->
-    <div class="terms">
-      <input type="checkbox" v-model="terms" required />
-      <label>
-        <i class="fa-solid fa-circle-check"></i>
-        I agree to the terms
-      </label>
-    </div>
+      <!-- Password -->
+      <label>Password</label>
+      <input v-model="password" type="password" />
 
-    <!-- Skills -->
-    <label>
-      <i class="fa-solid fa-code"></i>
-      Skills:
-    </label>
+      <div v-if="PasswrdError" class="error">
+        {{ PasswrdError }}
+      </div>
 
-    <div class="skill-input">
-      <input
-        v-model="tempSkill"
-        type="text"
-        placeholder="Add skill"
-      />
+      <!-- Role -->
+      <label>Role</label>
+      <select v-model="role">
+        <option>Web Developer</option>
+        <option>Web Designer</option>
+      </select>
 
-      <button type="button" @click="addskill">
-        <i class="fa-solid fa-plus"></i>
-        Add
-      </button>
-    </div>
+      <!-- Skills -->
+      <label>Skills</label>
 
-    <div v-for="skill in skills" :key="skill" class="pill">
-      <span @click="removeskill(skill)">
-        <i class="fa-solid fa-gem"></i>
-        {{ skill }}
-      </span>
-    </div>
+      <div class="skill-input">
+        <input v-model="tempSkill" placeholder="Add skill" />
+        <button type="button" @click="addskill">Add</button>
+      </div>
 
-    <!-- Submit -->
-    <div class="submit">
-      <button type="submit">
-        <i class="fa-solid fa-user-plus"></i>
+      <div class="skills">
+        <span v-for="s in skills" :key="s" @click="removeskill(s)">
+          {{ s }} ✕
+        </span>
+      </div>
+
+      <!-- Submit -->
+      <button class="submit-btn" type="submit">
         Create Account
       </button>
-    </div>
 
-  </form>
+    </form>
+  </div>
 </template>
-
 <script>
 const passwordRegex =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])[A-Za-z\d@#$%^&+=]{8,}$/;
@@ -87,10 +60,10 @@ export default {
       email: "",
       password: "",
       role: "",
-      terms: false,
       skills: [],
       tempSkill: "",
-      PasswrdError: ""
+      PasswrdError: "",
+      darkMode: false
     };
   },
 
@@ -110,57 +83,128 @@ export default {
       this.PasswrdError = "";
 
       if (!passwordRegex.test(this.password)) {
-        this.PasswrdError =
-          "Password must be 8+ chars, uppercase, lowercase, number, and symbol";
+        this.PasswrdError = "Weak password!";
         return;
       }
 
-      alert("Account created successfully!");
-
-      console.log({
-        email: this.email,
-        password: this.password,
-        role: this.role,
-        terms: this.terms,
-        skills: this.skills
-      });
+      alert("Success!");
     }
   }
 };
 </script>
-<style>
+<style scoped>
+.auth-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  font-family: Arial;
+}
+
+/* LIGHT */
+.light {
+  background: #f5f6fa;
+}
+
+/* DARK */
+.dark {
+  background: #0f172a;
+}
+
+.card {
+  width: 380px;
+  padding: 25px;
+  border-radius: 16px;
+  transition: 0.3s;
+}
+
+/* card light */
+.light .card {
+  background: white;
+  color: black;
+}
+
+/* card dark */
+.dark .card {
+  background: #1e293b;
+  color: white;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.dark input,
+.dark select {
+  background: #0f172a;
+  color: white;
+  border: 1px solid #334155;
+}
+
 .skill-input {
   display: flex;
   gap: 10px;
-  margin-bottom: 10px;
-}
-
-.skill-input input {
-  flex: 1;
 }
 
 .skill-input button {
-  background: #4f46e5;
+  background: #6366f1;
   color: white;
   border: none;
-  padding: 10px 14px;
+  padding: 10px;
   border-radius: 8px;
   cursor: pointer;
-  transition: 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
-.skill-input button:hover {
-  background: #4338ca;
+.skills {
+  margin-top: 10px;
 }
 
-.pill {
+.skills span {
   display: inline-block;
-  margin: 6px;
-  padding: 6px 10px;
-  background: #eee;
+  background: #6366f1;
+  color: white;
+  padding: 5px 10px;
+  margin: 3px;
   border-radius: 20px;
   cursor: pointer;
-}</style>
+  font-size: 12px;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #22c55e;
+  color: white;
+  cursor: pointer;
+}
+
+.error {
+  color: #f87171;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+</style>
