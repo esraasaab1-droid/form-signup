@@ -128,3 +128,39 @@ export default {
   }
 };
 </script>
+<style>
+.skill-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.skill-input input {
+  flex: 1;
+}
+
+.skill-input button {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.skill-input button:hover {
+  background: #4338ca;
+}
+
+.pill {
+  display: inline-block;
+  margin: 6px;
+  padding: 6px 10px;
+  background: #eee;
+  border-radius: 20px;
+  cursor: pointer;
+}</style>
