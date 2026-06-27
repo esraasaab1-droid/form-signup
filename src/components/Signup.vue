@@ -89,32 +89,40 @@ export default {
       this.skills = this.skills.filter(s => s !== skill);
     },
 
-    handleSUbmit() {
-      this.PasswrdError = "";
-      this.skillsError = "";
+  handleSUbmit() {
+  this.PasswrdError = "";
+  this.skillsError = "";
 
-      // Password validation (شرح واضح)
-      if (!passwordRegex.test(this.password)) {
-        this.PasswrdError =
-          "Password must be 8+ characters and include: uppercase, lowercase, number, and special symbol (@#$%^&+=)";
-        return;
-      }
+  // 1. Password validation
+  if (!passwordRegex.test(this.password)) {
+    this.PasswrdError =
+      "Password must include uppercase, lowercase, number, and symbol";
+    return;
+  }
 
-      // Skills validation
-      if (this.skills.length === 0) {
-        this.skillsError = "Please add at least one skill";
-        return;
-      }
+  // 2. Skills validation
+  if (this.skills.length === 0) {
+    this.skillsError = "Please add at least one skill";
+    return;
+  }
 
-      alert("Account created successfully!");
+  // 3. SUCCESS CASE فقط
+  alert("Account created successfully!");
 
-      console.log({
-        email: this.email,
-        password: this.password,
-        role: this.role,
-        skills: this.skills
-      });
-    }
+  console.log({
+    email: this.email,
+    password: this.password,
+    role: this.role,
+    skills: this.skills
+  });
+
+  // 4. Reset form بعد النجاح فقط
+  this.email = "";
+  this.password = "";
+  this.role = "";
+  this.skills = [];
+  this.tempSkill = "";
+} 
   }
 };
 </script>
